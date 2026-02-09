@@ -2,176 +2,144 @@
 
 A responsive Looker Studio dashboard optimized for 42-inch LED TV displays, deployed on Vercel.
 
-## Features
+## ✅ Features
 
-- ✅ **Responsive Design**: Automatically scales to fit 42-inch LED TV (1920x1080 and higher)
-- ✅ **Full-Screen Display**: Optimized for kiosk/TV mode
-- ✅ **Auto-Refresh**: Dashboard refreshes every hour
-- ✅ **Performance Optimized**: Fast loading with proper caching headers
-- ✅ **Security**: CORS and security headers configured
-- ✅ **No Build Required**: Static HTML - zero dependencies
+- 🎯 **Responsive Design**: Automatically scales to 1920x1080 and 4K
+- 📺 **Full-Screen Display**: Optimized for TV kiosk mode
+- 🔄 **Auto-Refresh**: Refreshes every hour
+- ⚡ **Zero Build**: Static HTML - no dependencies
+- 🚀 **Fast Deploy**: Live in seconds
 
-## Deployment Instructions
+## 📁 Project Structure
 
-### Step 1: Prepare for Git
-
-```bash
-# Initialize git repository (if not done)
-git init
-git add .
-git commit -m "Initial commit: KTI Dashboard"
+```
+├── index.html              # Dashboard + Looker embed + TV optimization
+├── vercel.json            # Minimal Vercel config
+├── .gitignore             # Git ignore rules
+├── README.md              # This file
+├── TV-SETUP-GUIDE.md      # TV physical setup & browser config
+└── DEPLOYMENT-CHECKLIST.md # Pre/post deployment checks
 ```
 
-### Step 2: Push to GitHub/GitLab/Bitbucket
+## 🚀 Quick Start (3 Steps)
 
+### Step 1: Prepare Git
 ```bash
-# Create a repository on GitHub (or your preferred platform)
-# Add remote and push
-git remote add origin <your-repo-url>
+cd KTI-Dashboard
+git init
+git add .
+git commit -m "Initial: KTI Dashboard"
+```
+
+### Step 2: Push to GitHub
+```bash
+git remote add origin https://github.com/YOUR-USERNAME/KTI-Dashboard.git
 git branch -M main
 git push -u origin main
 ```
 
 ### Step 3: Deploy to Vercel
 
-#### Option A: Vercel Dashboard (Recommended)
+**Option A: Vercel Dashboard**
+1. Go to https://vercel.com → Sign in with GitHub
+2. Click "New Project" → Select `KTI-Dashboard`
+3. Click "Deploy"
+4. ✅ Done! Live at `https://kti-dashboard.vercel.app`
 
-1. Go to [https://vercel.com](https://vercel.com)
-2. Sign in with GitHub/GitLab account
-3. Click **"New Project"**
-4. Import your repository
-5. Vercel will auto-detect it's a static site
-6. Click **"Deploy"**
-7. Your dashboard will be live at: `https://your-project.vercel.app`
-
-#### Option B: Vercel CLI
-
+**Option B: Vercel CLI**
 ```bash
-# Install Vercel CLI
 npm install -g vercel
-
-# Deploy from project directory
 vercel
 ```
 
-### Step 4: Configure for TV Display
-
-1. **Access the dashboard**: Visit your Vercel URL on the 42-inch TV
-2. **Full-Screen Mode**: The dashboard will attempt to enter full-screen mode automatically
-3. **Keyboard Shortcuts**:
-   - Press `F11` to toggle full-screen manually
-   - Right-click is disabled to prevent accidental navigation
-4. **Security**: Power off the TV to prevent unwanted interactions
-
-## Local Testing
-
-### Run Locally
+## 🧪 Local Testing
 
 ```bash
-# Using Python (recommended)
+# Start local server
 python -m http.server 3000
 
-# Or using Node.js http-server
-npx http-server -p 3000
-
-# Then visit: http://localhost:3000
+# Visit: http://localhost:3000
 ```
 
-### Test Responsiveness
+## 📝 Customization
 
-- Open DevTools (F12) and use Device Emulation
-- Test at 1920x1080 resolution (42" TV standard)
-- Test at 4K (3840x2160) for future-proofing
+### Change Auto-Refresh Interval
 
-## Customization
-
-### Adjust Refresh Interval
-
-Edit `index.html` and change the `REFRESH_INTERVAL` value (in milliseconds):
+Edit `index.html`, find `REFRESH_INTERVAL`:
 
 ```javascript
-const REFRESH_INTERVAL = 3600000; // Default: 1 hour = 3,600,000 ms
-// For 30 minutes: 1800000
-// For 24 hours: 86400000
+const REFRESH_INTERVAL = 3600000; // 1 hour = default
+// 300000 = 5 min | 1800000 = 30 min | 86400000 = 24 hrs
 ```
 
-### Change Title
+### Update Looker Studio Report
 
-Edit the `<title>` tag in the HTML head section.
+Edit the iframe `src` URL in `index.html`:
 
-### Update Dashboard URL
+```html
+<iframe src="https://lookerstudio.google.com/embed/reporting/YOUR-REPORT-ID/..." ...></iframe>
+```
 
-If your Looker Studio report changes, update the `src` attribute in the `<iframe>` tag.
+### Change Dashboard Title
 
-## 42-Inch LED TV Optimization Details
+Edit `index.html` `<title>` tag:
 
-### Display Specifications
-- **Resolution**: 1920x1080 (Full HD) to 3840x2160 (4K)
-- **Aspect Ratio**: 16:9
-- **Viewing Distance**: 6-8 feet recommended
-- **Font Size**: Scaled for TV readability
+```html
+<title>Your Dashboard Title</title>
+```
 
-### CSS Features
-- **100% Viewport Coverage**: Uses `100vw` and `100vh` for full coverage
-- **No Scrolling**: Disabled to prevent accidental scrolling
-- **Dark Background**: Reduces eye strain during extended viewing
-- **Responsive Typography**: Text automatically scales with display
+## 📺 42-Inch TV Optimization
 
-## Monitoring
+`index.html` includes:
+- ✅ Responsive CSS (1920x1080 + 4K)
+- ✅ 100% viewport coverage (no scrolling)
+- ✅ Dark theme (reduces eye strain)
+- ✅ Auto-fullscreen support
+- ✅ Keyboard shortcuts disabled
+- ✅ Right-click menu disabled
 
-### Check Deployment Status
-- Visit your Vercel dashboard
-- Check build logs and deployment history
-- Monitor analytics and performance metrics
+See **TV-SETUP-GUIDE.md** for:
+- Physical TV settings optimization
+- Browser kiosk mode setup
+- Windows/Mac/Linux auto-startup
+- 24/7 display configurations
 
-### Get Notification for Failures
-1. Configure notifications in Vercel project settings
-2. Integrate with Slack, Teams, or email
+## ❓ Troubleshooting
 
-## Troubleshooting
+| Problem | Solution |
+|---------|----------|
+| Deployment fails | Verify vercel.json syntax, check index.html exists |
+| Blank dashboard | Ensure Looker report is public/shareable |
+| Not full-screen | Press F11 or setup browser per TV-SETUP-GUIDE.md |
+| Slow loading | Clear browser cache (Ctrl+Shift+Delete) |
+| Looker errors | Check Looker report URL & sharing settings |
 
-### Dashboard Not Loading
-- Check internet connection
-- Verify Looker Studio report is public/embeddable
-- Check browser console for errors (F12)
+## 🔗 Resources
 
-### Not Full-Screen on TV
-- Some browsers require user interaction for full-screen
-- Try manual full-screen toggle with F11
-- Verify browser permissions allow full-screen
+- **Vercel Docs**: https://vercel.com/docs
+- **Looker Studio Help**: https://support.google.com/looker-studio
+- **Status**: https://vercel.com/status
 
-### Poor Performance
-- Clear browser cache
-- Check network speed
-- Reload the page (Ctrl+Shift+R for hard refresh)
+## 📄 Files Reference
 
-### Looker Studio Report Issues
-- Verify the report URL is correct in iframe
-- Ensure report is shared with "Viewer" access or public
-- Check Google account permissions
+| File | Purpose |
+|------|---------|
+| `index.html` | Main dashboard (Looker embed + responsive CSS) |
+| `vercel.json` | Minimal deployment config |
+| `.gitignore` | Git ignore patterns |
+| `TV-SETUP-GUIDE.md` | TV setup, browser config, auto-startup |
+| `DEPLOYMENT-CHECKLIST.md` | Pre/post deployment verification |
 
-## Security Notes
+## 📞 Support
 
-- The dashboard disables right-click menu
-- Google Analytics is disabled for privacy
-- Keyboard shortcuts are restricted for TV mode
-- CORS headers prevent embedding in untrusted sources
+- Read **TV-SETUP-GUIDE.md** for TV configuration questions
+- Check **DEPLOYMENT-CHECKLIST.md** for verification steps
+- Review browser console (F12) for error messages
 
-## Support
+## 📜 License
 
-For issues:
-1. Check Vercel deployment logs
-2. Verify Looker Studio report is accessible
-3. Clear browser cache and reload
-4. Try accessing from a different device
+MIT - Modify and reuse freely
 
-## License
+---
 
-MIT - Feel free to modify and reuse
-
-## Environment
-
-- **Deployment**: Vercel (serverless)
-- **Content**: Looker Studio
-- **Framework**: Vanilla HTML/CSS/JavaScript
-- **Compatibility**: Modern browsers (Chrome, Safari, Edge, Firefox)
+**Ready to deploy?** Follow the 3-step Quick Start above! 🎉
