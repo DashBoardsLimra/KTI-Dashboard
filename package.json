@@ -1,0 +1,21 @@
+{
+  "name": "kti-dashboard",
+  "version": "1.0.0",
+  "description": "KTI Sales Dashboard - Looker Studio Display for 42-inch LED TV",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "test": "echo \"No tests configured\""
+  },
+  "keywords": [
+    "dashboard",
+    "looker-studio",
+    "sales",
+    "analytics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
