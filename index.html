@@ -31,6 +31,9 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         iframe {
@@ -38,6 +41,8 @@
             height: 100%;
             border: none;
             display: block;
+            /* Fallback zoom for all browsers */
+            zoom: 90%;
         }
 
         /* Optimize for 42-inch display (typically 1920x1080 or similar) */
@@ -100,6 +105,9 @@
                 });
             }
             
+            // Scale iframe to fit content without scrolling
+            scaleIframeToFit();
+            
             // Disable right-click context menu
             document.addEventListener('contextmenu', (e) => e.preventDefault());
             
@@ -112,12 +120,72 @@
             });
         }
 
+        // Scale iframe content to fit viewport without scrolling
+        function scaleIframeToFit() {
+            const iframe = document.querySelector('iframe');
+            if (!iframe) return;
+
+            // Wait for iframe to load, then adjust scaling
+            iframe.onload = function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const scrollHeight = iframeDoc.documentElement.scrollHeight;
+                    const scrollWidth = iframeDoc.documentElement.scrollWidth;
+                    
+                    const viewportHeight = window.innerHeight;
+                    const viewportWidth = window.innerWidth;
+                    
+                    // Calculate scale to fit content
+                    const scaleHeight = viewportHeight / scrollHeight;
+                    const scaleWidth = viewportWidth / scrollWidth;
+                    const scale = Math.min(scaleHeight, scaleWidth, 1); // Don't zoom in, only out
+                    
+                    if (scale < 1) {
+                        iframe.style.transform = `scale(${scale})`;
+                        iframe.style.transformOrigin = 'top left';
+                        iframe.style.width = String(100 / scale) + '%';
+                        iframe.style.height = String(100 / scale) + '%';
+                    }
+                } catch (e) {
+                    console.log('Cannot access iframe content (cross-origin)');
+                    // Fallback: use CSS zoom which works across origins
+                    applyZoomFallback();
+                }
+            };
+            
+            // Trigger onload event in case iframe is cached
+            if (iframe.complete) {
+                iframe.onload();
+            }
+        }
+
+        // Fallback zoom method for cross-origin iframes
+        function applyZoomFallback() {
+            const container = document.querySelector('.dashboard-container');
+            // Start with 90% zoom to fit most content
+            let zoom = 90;
+            
+            // Check if we need more zoom out
+            if (window.innerWidth < 1920) {
+                zoom = 75; // Smaller screens need more zoom out
+            } else if (window.innerWidth >= 3840) {
+                zoom = 95; // 4K displays can handle more zoom
+            }
+            
+            container.style.zoom = zoom + '%';
+        }
+
         // Initialize on load
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeDisplay);
         } else {
             initializeDisplay();
         }
+
+        // Handle window resize to re-adjust scaling
+        window.addEventListener('resize', () => {
+            scaleIframeToFit();
+        });
 
         // Optional: Auto-refresh the page periodically
         setTimeout(() => {
